@@ -47,8 +47,7 @@ def main():
     6. Resumen economico de la tienda
     7. Prueba Consulta 
     0. Salir
-    ==========================================
-    Elige una opcion:""")
+    ==========================================""")
         opcion = int(input("Elige una opcion: "))
         match opcion:
             # case 1:
