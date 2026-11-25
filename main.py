@@ -39,16 +39,43 @@ def print_basico(resultados): #Probar que la consulta funciona
 
 def buscar(resultados):
     texto = input("Introduce un texto: ").lower()
-    encontrados = set()
-    for fila in resultados[:31]:
+    mostrados = set()
+    for fila in resultados: #Recorre la lista 31 veces para evitar duplicados
         artista = fila[1]
-        canciones = fila[7]
-        for cancion in canciones:
-            if texto in cancion.lower():
-                coincidencia = (artista, cancion)
-                if coincidencia not in encontrados:
-                    print(f"{artista} — {cancion}")
-                    encontrados.add(cancion)
+        canciones = fila[7] 
+        for cancion in canciones: #Filtrar por coincidencia
+            coincidencia = (artista, cancion)
+            if texto in cancion.lower() and coincidencia not in mostrados:
+                    print(f"{artista} — {cancion}") #imprime por pantalla las canciones coincidentes
+                    mostrados.add(coincidencia)
+                    
+
+def ranking(resultados):
+    totales = {} # Diccionario 
+    for fila in resultados:
+        titulo = fila[4]
+        unidades = fila[12]
+        if titulo not in totales:
+            totales[titulo] = 0 #Se añade el titulo del album al diccionario
+        totales[titulo] += unidades # Se suman las unidades totales al diccionario
+
+    ordenados = sorted(totales.items(), key=lambda album: album[1], reverse=True) # Ordena de mayor a menor
+    contador = 1 # Contador para rankear los 31 albumes
+    for titulo, unidades in ordenados: #Muestra los albumes en varias lineas usando el diccionario
+        print(f"{contador}. {titulo} - {unidades} unidades")
+        contador += 1
+
+def albumes_precio(resultados):
+    albumes = {} #Diccionario
+    for fila in resultados:
+        idalbum = fila[3]
+        titulo = fila[4]
+        precio = fila[8]
+        if idalbum not in albumes:
+            albumes[idalbum] = (titulo, precio)
+    ordenados = sorted(albumes.values(), key=lambda album: album[1], reverse=True)
+    for titulo, precio in ordenados:
+        print(f"{titulo} - {precio} €")
 
 def main():
     opcion = None
@@ -63,7 +90,7 @@ def main():
 3. Filtrar albumes por formato
 4. Buscar una cancion
 5. Ranking de albumes mas vendidos
-6. Resumen economico de la tienda
+6. Filtrar albumes por precio
 7. Prueba Consulta 
 0. Salir
 ==========================================""")
@@ -78,9 +105,9 @@ def main():
             case 4:
                 buscar(resultados)
             case 5:
-                print("5")
+                ranking(resultados)
             case 6:
-                print("6")
+                albumes_precio(resultados)
             case 7:
                 print_basico(resultados)
 
