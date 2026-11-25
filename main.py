@@ -7,7 +7,7 @@ def db_musica():
         port=5432,
         dbname="musica",
         user="postgres",
-        password="root"
+        password="root" #Poner contraseña del servidor Postgres
     ) as conexion:
         with conexion.cursor() as cursor:
             sql = """
@@ -21,36 +21,45 @@ def db_musica():
             return cursor.fetchall()
 
 
-def print_basico(resultados):
+def print_basico(resultados): #Probar que la consulta funciona
     for fila in resultados:
         print(fila)
 
+def buscar(resultados):
+    texto = input("Introduce un texto: ").lower()
+    encontrados = []
+    for fila in resultados:
+        print(fila[1])
 
 def main():
     resultados: db_musica
     opcion = None
     resultados = db_musica()
-    print_basico(resultados)
-# while opcion != 0:
-#     print("""==========================================
-#            TIENDA DE MUSICA
-# ==========================================
-# 1. Mostrar catalogo de albumes
-# 2. Buscar artista y discografia
-# 3. Filtrar albumes por formato
-# 4. Buscar una cancion
-# 5. Ranking de albumes mas vendidos
-# 6. Resumen economico de la tienda
-# 0. Salir
-# ==========================================
-# Elige una opcion:""")
-#     match opcion:
-#         case 1:
-#         case 2:
-#         case 3:
-#         case 4:
-#         case 5:
-#         case 6:
+    while opcion != 0:
+        print("""==========================================
+            TIENDA DE MUSICA
+    ==========================================
+    1. Mostrar catalogo de albumes
+    2. Buscar artista y discografia
+    3. Filtrar albumes por formato
+    4. Buscar una cancion
+    5. Ranking de albumes mas vendidos
+    6. Resumen economico de la tienda
+    7. Prueba Consulta 
+    0. Salir
+    ==========================================
+    Elige una opcion:""")
+        opcion = int(input("Elige una opcion: "))
+        match opcion:
+            # case 1:
+            # case 2:
+            # case 3:
+            # case 4:
+            # case 5:
+            # case 6:
+            case 7:
+                print_basico(resultados)
+
 
 if __name__ == "__main__":
     main()
