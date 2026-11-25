@@ -36,18 +36,19 @@ def main():
     opcion = None
     resultados = db_musica()
     while opcion != 0:
-        print("""==========================================
-            TIENDA DE MUSICA
-    ==========================================
-    1. Mostrar catalogo de albumes
-    2. Buscar artista y discografia
-    3. Filtrar albumes por formato
-    4. Buscar una cancion
-    5. Ranking de albumes mas vendidos
-    6. Resumen economico de la tienda
-    7. Prueba Consulta 
-    0. Salir
-    ==========================================""")
+        print("""
+==========================================
+        TIENDA DE MUSICA
+==========================================
+1. Mostrar catalogo de albumes
+2. Buscar artista y discografia
+3. Filtrar albumes por formato
+4. Buscar una cancion
+5. Ranking de albumes mas vendidos
+6. Resumen economico de la tienda
+7. Prueba Consulta 
+0. Salir
+==========================================""")
         opcion = int(input("Elige una opcion: "))
         match opcion:
             # case 1:
