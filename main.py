@@ -11,17 +11,26 @@ def db_musica():
     ) as conexion:
         with conexion.cursor() as cursor:
             sql = """
-                SELECT a.id_artista, a.nombre, a.nacionalidad, al.id_album, al.titulo, al.fecha_lanzamiento, al.formato, al.canciones, al.precio, al.stock, v.id_ventas, v.fecha_hora, v.unidades 
+                SELECT a.id_artista, a.nombre, a.nacionalidad, al.id_album, al.titulo, al.fecha_lanzamiento, al.formato, al.canciones, al.precio, al.stock, v.id_venta, v.fecha_hora, v.unidades 
                 FROM tienda.artista a
                 INNER JOIN tienda.album al
                     ON a.id_artista = al.id_artista
                 LEFT JOIN tienda.ventas v
                     ON al.id_album = v.id_album;"""
-            print(sql) # Prueba de conexion y consulta básica de albumes
+            cursor.execute(sql)
+            return cursor.fetchall()
+
+
+def print_basico(resultados):
+    for fila in resultados:
+        print(fila)
+
 
 def main():
     resultados: db_musica
     opcion = None
+    resultados = db_musica()
+    print_basico(resultados)
 # while opcion != 0:
 #     print("""==========================================
 #            TIENDA DE MUSICA
@@ -45,3 +54,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
