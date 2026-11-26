@@ -20,24 +20,8 @@ def db_musica():
             cursor.execute(sql)
             return cursor.fetchall()
 
-#Prueba consulta
-def print_basico(resultados): #Probar que la consulta funciona
-    for fila in resultados[:31]:
-        print(f"ID: {fila[0]}")
-        print(f"Nombre: {fila[1]}")
-        print(f"Nacionalidad: {fila[2]}")
-        print(f"ID Album: {fila[3]}")
-        print(f"Título del álbum: {fila[4]}")
-        print(f"Fecha de lanzamiento: {fila[5]}")
-        print(f"Formato: {fila[6]}")
-        print(f"Canciones: {', '.join(fila[7] or [])}")
-        print(f"Precio: {fila[8]} €")
-        print(f"Stock disponible: {fila[9]}")
-        print(f"ID de la venta: {fila[10]}")
-        print(f"Fecha y hora de la venta: {fila[11]}")
-        print(f"Unidades vendidas: {fila[12]}")
 
-#Mostrar catálogo de álbumes
+#1.Mostrar catálogo de álbumes
 def mostrar_catalogo(resultados): 
     encontrados = [] #crea una lista vacía para los ID encontrados
 
@@ -54,7 +38,7 @@ def mostrar_catalogo(resultados):
 
             encontrados.append(fila[3]) #añade el ID del album a la lista 
 
-#Buscar artista y discografía            
+#2.Buscar artista y discografía            
 def buscar_artista(resultados):
     nombre = input("Introduce nombre del artista: ").lower() #pide al usuario el nombre del artista
     encontrado = False #comprueba si encontramos al artista
@@ -77,7 +61,7 @@ def buscar_artista(resultados):
     if encontrado == False: #Si no se encuentra el artista muestra el mensaje
         print("Artista no encontrado")
 
-#Filtrar albumes por formato
+#3.Filtrar albumes por formato
 def filtrar_albumes(resultados): 
     formato = input("Introduce formato (CD, Vinilo, Casette) :").lower() 
     encontrado = False #Comprueba si hemos encontrado algún album
@@ -99,11 +83,11 @@ def filtrar_albumes(resultados):
     if encontrado == False: #Comprueba si no se ha encontrado ningún álbum con ese formato
        print("No se encontraron álbumes en ese formato")
         
-#Buscar una canción
+#4.Buscar una canción
 def buscar(resultados):
     texto = input("Introduce un texto: ").lower()
-    mostrados = set()
-    for fila in resultados: #Recorre la lista 31 veces para evitar duplicados
+    mostrados = set() #Tupla para evitar duplicados
+    for fila in resultados: 
         artista = fila[1]
         canciones = fila[7] 
         for cancion in canciones: #Filtrar por coincidencia
@@ -128,7 +112,7 @@ def ranking(resultados):
         print(f"{contador}. {titulo} - {unidades} unidades")
         contador += 1
         
-#Resumen económico de la tienda
+#Mostrar precio de los albumes en orden
 def albumes_precio(resultados):
     albumes = {} #Diccionario
     for fila in resultados:
@@ -136,8 +120,8 @@ def albumes_precio(resultados):
         titulo = fila[4]
         precio = fila[8]
         if idalbum not in albumes:
-            albumes[idalbum] = (titulo, precio)
-    ordenados = sorted(albumes.values(), key=lambda album: album[1], reverse=True)
+            albumes[idalbum] = (titulo, precio) #Añadir al diccionario el idalbum y sus claves titulo y precio
+    ordenados = sorted(albumes.values(), key=lambda album: album[1], reverse=True) #Ordenar de mayor a menor los precios
     for titulo, precio in ordenados:
         print(f"{titulo} - {precio} €")
 
@@ -155,11 +139,12 @@ def main():
 4. Buscar una cancion
 5. Ranking de albumes mas vendidos
 6. Filtrar albumes por precio
-7. Prueba Consulta 
 0. Salir
 ==========================================""")
         opcion = int(input("Elige una opcion: "))
         match opcion:
+            case 0:
+                print("Saliendo del programa...")
             case 1:
                 mostrar_catalogo(resultados)
             case 2:
@@ -172,8 +157,8 @@ def main():
                 ranking(resultados)
             case 6:
                 albumes_precio(resultados)
-            case 7:
-                print_basico(resultados)
+            case _:
+                print("Opción no valida")
 
 
 if __name__ == "__main__":
